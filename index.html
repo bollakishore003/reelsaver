@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReelSave — Download Instagram Reels & YouTube Shorts</title>
-  <meta name="description" content="Free tool to download Instagram Reels and YouTube Shorts in HD quality. Fast, easy, no signup required." />
+  <title>ReelSave — Download Instagram Reels & Videos</title>
+  <meta name="description" content="Free tool to download Instagram Reels, Posts and Videos in HD quality. Fast, easy, no signup required." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & Base ───────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -16,11 +15,10 @@
       --card: #16161f;
       --card2: #1e1e2a;
       --border: rgba(255,255,255,0.08);
-      --accent: #7c3aed;
-      --accent2: #ec4899;
+      --accent: #dd2a7b;
+      --accent2: #f58529;
       --text: #f0f0f5;
       --muted: #8888a8;
-      --green: #22c55e;
       --radius: 16px;
     }
 
@@ -34,15 +32,13 @@
       align-items: center;
     }
 
-    /* ── Background blobs ───────────────────────────── */
     .bg-blob {
       position: fixed; border-radius: 50%; filter: blur(120px);
       pointer-events: none; z-index: 0;
     }
-    .blob1 { width: 500px; height: 500px; background: rgba(124,58,237,0.15); top: -100px; left: -150px; }
-    .blob2 { width: 400px; height: 400px; background: rgba(236,72,153,0.12); bottom: -80px; right: -100px; }
+    .blob1 { width: 500px; height: 500px; background: rgba(221,42,123,0.12); top: -100px; left: -150px; }
+    .blob2 { width: 400px; height: 400px; background: rgba(245,133,41,0.10); bottom: -80px; right: -100px; }
 
-    /* ── Layout ─────────────────────────────────────── */
     header {
       width: 100%; padding: 24px 32px;
       display: flex; align-items: center; justify-content: space-between;
@@ -52,12 +48,12 @@
     .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.2rem; }
     .logo-icon {
       width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: linear-gradient(135deg, #f58529, #dd2a7b, #515bd4);
       display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
     .badge {
-      background: rgba(124,58,237,0.2); color: #a78bfa;
-      border: 1px solid rgba(124,58,237,0.3);
+      background: rgba(221,42,123,0.15); color: #f48fb1;
+      border: 1px solid rgba(221,42,123,0.3);
       padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600;
     }
 
@@ -68,28 +64,23 @@
       flex: 1;
     }
 
-    /* ── Hero ───────────────────────────────────────── */
     .hero { text-align: center; margin-bottom: 40px; }
     .hero h1 {
       font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.15;
-      background: linear-gradient(135deg, #fff 40%, #a78bfa 100%);
+      background: linear-gradient(135deg, #fff 40%, #f48fb1 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; margin-bottom: 14px;
     }
     .hero p { color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 480px; margin: 0 auto; }
 
-    /* ── Platforms ──────────────────────────────────── */
     .platforms { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
     .platform-tag {
       display: flex; align-items: center; gap: 6px;
       background: var(--card); border: 1px solid var(--border);
       padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 500;
     }
-    .platform-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
-    .dot-ig { background: linear-gradient(135deg, #f58529, #dd2a7b, #515bd4); }
-    .dot-yt { background: #ff0000; }
+    .ig-icon { font-size: 1rem; }
 
-    /* ── Input Card ─────────────────────────────────── */
     .input-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -120,27 +111,19 @@
       font-family: inherit; transition: all 0.2s; white-space: nowrap;
     }
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: linear-gradient(135deg, #f58529, #dd2a7b, #515bd4);
       color: white;
     }
     .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
     .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-    .btn-outline {
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-outline:hover { background: var(--card2); }
 
-    /* ── Platform Indicator ─────────────────────────── */
     .platform-indicator {
       display: none; align-items: center; gap: 8px;
       margin-top: 12px; font-size: 0.85rem; color: var(--muted);
     }
     .platform-indicator.visible { display: flex; }
-    .platform-icon { font-size: 1.1rem; }
 
-    /* ── Result Card ────────────────────────────────── */
     .result-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); overflow: hidden;
@@ -153,9 +136,7 @@
       aspect-ratio: 9/16; max-height: 320px;
       overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
-    .video-preview img {
-      width: 100%; height: 100%; object-fit: cover; opacity: 0.85;
-    }
+    .video-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
     .video-preview .play-overlay {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -165,9 +146,8 @@
       background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
       border: 2px solid rgba(255,255,255,0.3);
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px; cursor: pointer; transition: all 0.2s;
+      font-size: 22px;
     }
-    .play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
 
     .video-info { padding: 20px 24px; }
     .video-title {
@@ -176,20 +156,19 @@
     }
     .video-meta { color: var(--muted); font-size: 0.83rem; margin-bottom: 20px; }
 
-    .download-options { display: flex; flex-direction: column; gap: 10px; }
-    .quality-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
-    .quality-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .quality-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+    .quality-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
     .quality-btn {
       padding: 10px 18px; border-radius: 10px; font-size: 0.85rem; font-weight: 600;
       cursor: pointer; font-family: inherit; transition: all 0.2s;
       border: 1px solid var(--border); background: var(--card2); color: var(--text);
     }
-    .quality-btn:hover { border-color: var(--accent); color: #a78bfa; }
+    .quality-btn:hover { border-color: var(--accent); color: #f48fb1; }
     .quality-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 
     .download-btn-main {
-      width: 100%; margin-top: 8px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      width: 100%;
+      background: linear-gradient(135deg, #f58529, #dd2a7b, #515bd4);
       color: white; padding: 14px;
       border-radius: 12px; font-weight: 700; font-size: 1rem;
       cursor: pointer; border: none; font-family: inherit;
@@ -198,7 +177,6 @@
     .download-btn-main:hover { opacity: 0.9; transform: translateY(-1px); }
     .download-btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* ── Error ──────────────────────────────────────── */
     .error-box {
       background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
       color: #fca5a5; border-radius: 12px; padding: 14px 18px;
@@ -206,7 +184,6 @@
     }
     .error-box.visible { display: block; }
 
-    /* ── Spinner ────────────────────────────────────── */
     .spinner {
       width: 18px; height: 18px; border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.3);
@@ -216,7 +193,6 @@
     .spinner.visible { display: inline-block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Features ───────────────────────────────────── */
     .features {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
       margin-top: 8px;
@@ -230,15 +206,21 @@
     .feature-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
     .feature-desc { font-size: 0.78rem; color: var(--muted); }
 
-    /* ── Footer ─────────────────────────────────────── */
-    footer {
-      width: 100%; text-align: center; padding: 24px;
-      color: var(--muted); font-size: 0.8rem;
-      border-top: 1px solid var(--border); position: relative; z-index: 1;
+    .how-to {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin-bottom: 24px;
     }
-    footer a { color: #a78bfa; text-decoration: none; }
+    .how-to h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 16px; }
+    .steps { display: flex; flex-direction: column; gap: 12px; }
+    .step { display: flex; align-items: flex-start; gap: 12px; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #f58529, #dd2a7b);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .step-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; padding-top: 3px; }
 
-    /* ── Progress bar ───────────────────────────────── */
     .progress-bar {
       height: 3px; background: rgba(255,255,255,0.08);
       border-radius: 3px; overflow: hidden; margin-top: 14px; display: none;
@@ -246,51 +228,51 @@
     .progress-bar.visible { display: block; }
     .progress-fill {
       height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, #f58529, #dd2a7b);
       animation: progress-shimmer 1.5s ease-in-out infinite;
     }
     @keyframes progress-shimmer {
       0% { width: 5%; } 50% { width: 70%; } 100% { width: 5%; }
     }
-    .progress-fill.done { animation: none; width: 100%; }
+
+    footer {
+      width: 100%; text-align: center; padding: 24px;
+      color: var(--muted); font-size: 0.8rem;
+      border-top: 1px solid var(--border); position: relative; z-index: 1;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Background -->
   <div class="bg-blob blob1"></div>
   <div class="bg-blob blob2"></div>
 
-  <!-- Header -->
   <header>
     <div class="logo">
-      <div class="logo-icon">⬇</div>
+      <div class="logo-icon">📸</div>
       ReelSave
     </div>
-    <span class="badge">Free &amp; Fast</span>
+    <span class="badge">Instagram Only</span>
   </header>
 
-  <!-- Main Content -->
   <main>
-    <!-- Hero -->
     <div class="hero">
-      <h1>Download Reels &amp;<br/>YouTube Shorts</h1>
-      <p>Paste any Instagram Reel or YouTube Shorts link and download it in seconds — no signup, no watermarks.</p>
+      <h1>Download Instagram<br/>Reels & Videos</h1>
+      <p>Paste any Instagram Reel or video link and download it instantly — no signup, no watermarks, completely free.</p>
       <div class="platforms">
-        <div class="platform-tag"><span class="dot dot-ig"></span> Instagram Reels</div>
-        <div class="platform-tag"><span class="dot dot-yt"></span> YouTube Shorts</div>
+        <div class="platform-tag"><span class="ig-icon">📸</span> Reels</div>
+        <div class="platform-tag"><span class="ig-icon">🎬</span> Posts</div>
+        <div class="platform-tag"><span class="ig-icon">📱</span> Videos</div>
       </div>
     </div>
 
-    <!-- Input Card -->
     <div class="input-card">
       <div class="url-row">
         <input
           type="url"
           class="url-input"
           id="urlInput"
-          placeholder="Paste Instagram or YouTube URL here..."
+          placeholder="Paste Instagram Reel or video URL here..."
           autocomplete="off"
           autocorrect="off"
           spellcheck="false"
@@ -301,24 +283,19 @@
         </button>
       </div>
 
-      <!-- Platform indicator -->
       <div class="platform-indicator" id="platformIndicator">
-        <span class="platform-icon" id="platformIcon"></span>
+        <span>📸</span>
         <span id="platformText"></span>
       </div>
 
-      <!-- Progress bar -->
       <div class="progress-bar" id="progressBar">
         <div class="progress-fill" id="progressFill"></div>
       </div>
     </div>
 
-    <!-- Error box -->
     <div class="error-box" id="errorBox"></div>
 
-    <!-- Result Card -->
     <div class="result-card" id="resultCard">
-      <!-- Thumbnail -->
       <div class="video-preview" id="videoPreview">
         <img id="thumbnail" src="" alt="Video thumbnail" />
         <div class="play-overlay">
@@ -326,17 +303,14 @@
         </div>
       </div>
 
-      <!-- Info + Download -->
       <div class="video-info">
         <div class="video-title" id="videoTitle"></div>
         <div class="video-meta" id="videoMeta"></div>
 
-        <div class="download-options">
-          <div class="quality-label">Select Quality</div>
-          <div class="quality-btns" id="qualityBtns">
-            <button class="quality-btn active" data-quality="normal" onclick="selectQuality(this)">720p (Standard)</button>
-            <button class="quality-btn" data-quality="best" onclick="selectQuality(this)">1080p (Best)</button>
-          </div>
+        <div class="quality-label">Select Quality</div>
+        <div class="quality-btns" id="qualityBtns">
+          <button class="quality-btn active" data-quality="normal" onclick="selectQuality(this)">Standard</button>
+          <button class="quality-btn" data-quality="best" onclick="selectQuality(this)">Best Quality</button>
         </div>
 
         <button class="download-btn-main" id="downloadBtn" onclick="downloadVideo()">
@@ -346,71 +320,78 @@
       </div>
     </div>
 
-    <!-- Features -->
+    <!-- How to use -->
+    <div class="how-to">
+      <h3>How to use</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open Instagram and find the Reel or video you want to download</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Tap the <strong>Share</strong> button → <strong>Copy Link</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Paste the link above and click <strong>Fetch Video</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Choose your quality and click <strong>Download Video</strong></div>
+        </div>
+      </div>
+    </div>
+
     <div class="features">
       <div class="feature-item">
         <div class="feature-icon">⚡</div>
         <div class="feature-title">Lightning Fast</div>
-        <div class="feature-desc">Downloads processed in seconds on our server</div>
+        <div class="feature-desc">Downloads processed in seconds</div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">🔒</div>
         <div class="feature-title">No Signup</div>
-        <div class="feature-desc">Completely free — no account needed ever</div>
+        <div class="feature-desc">Completely free, no account needed</div>
       </div>
       <div class="feature-item">
         <div class="feature-icon">🎥</div>
         <div class="feature-title">HD Quality</div>
-        <div class="feature-desc">Get original quality up to 1080p MP4</div>
+        <div class="feature-desc">Original quality, no watermarks</div>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
   <footer>
-    <p>ReelSave &mdash; For personal use only. Respect content creators &amp; platform ToS.</p>
+    <p>ReelSave &mdash; For personal use only. Respect content creators &amp; Instagram's Terms of Service.</p>
   </footer>
 
   <script>
-    // ── CONFIG ──────────────────────────────────────────────────────
-    // 🔴 CHANGE THIS to your Digital Ocean droplet IP after deployment
+    // 🔴 UPDATE THIS with your backend URL
     const API_BASE = "https://143.244.137.81.sslip.io";
-    // Example: const API_BASE = "http://143.198.123.45:3000";
-    // ───────────────────────────────────────────────────────────────
 
     let currentUrl = "";
     let selectedQuality = "normal";
 
-    // Detect platform from URL
-    function detectPlatform(url) {
-      if (/instagram\.com\/(reel|reels|p)\//i.test(url)) return "instagram";
-      if (/youtube\.com\/shorts\//i.test(url) || /youtu\.be\//i.test(url)) return "youtube";
-      if (/youtube\.com\/watch/i.test(url)) return "youtube";
-      return null;
+    function detectInstagram(url) {
+      return /instagram\.com\/(reel|reels|p|tv)\//i.test(url);
     }
 
-    // Update platform indicator as user types
     document.getElementById("urlInput").addEventListener("input", (e) => {
       const url = e.target.value.trim();
-      const platform = detectPlatform(url);
       const indicator = document.getElementById("platformIndicator");
-      const icon = document.getElementById("platformIcon");
       const text = document.getElementById("platformText");
-
-      if (platform === "instagram") {
+      if (detectInstagram(url)) {
         indicator.classList.add("visible");
-        icon.textContent = "📸";
-        text.textContent = "Instagram Reel detected";
-      } else if (platform === "youtube") {
+        text.textContent = "Instagram link detected";
+      } else if (url.length > 10) {
         indicator.classList.add("visible");
-        icon.textContent = "▶️";
-        text.textContent = "YouTube video detected";
+        text.textContent = "Only Instagram links are supported";
       } else {
         indicator.classList.remove("visible");
       }
     });
 
-    // Allow Enter key
     document.getElementById("urlInput").addEventListener("keydown", (e) => {
       if (e.key === "Enter") fetchInfo();
     });
@@ -428,45 +409,34 @@
 
     function setFetchLoading(loading) {
       const btn = document.getElementById("fetchBtn");
-      const text = document.getElementById("fetchBtnText");
-      const spinner = document.getElementById("fetchSpinner");
+      document.getElementById("fetchBtnText").style.display = loading ? "none" : "inline";
+      document.getElementById("fetchSpinner").classList.toggle("visible", loading);
       btn.disabled = loading;
-      text.style.display = loading ? "none" : "inline";
-      spinner.classList.toggle("visible", loading);
     }
 
     function setDownloadLoading(loading) {
-      const btn = document.getElementById("downloadBtn");
-      const text = document.getElementById("downloadBtnText");
-      const spinner = document.getElementById("downloadSpinner");
-      btn.disabled = loading;
-      text.style.display = loading ? "none" : "flex";
-      spinner.classList.toggle("visible", loading);
-    }
-
-    function showProgress(show) {
-      document.getElementById("progressBar").classList.toggle("visible", show);
+      document.getElementById("downloadBtn").disabled = loading;
+      document.getElementById("downloadBtnText").textContent = loading ? "Preparing..." : "⬇ Download Video";
+      document.getElementById("downloadSpinner").classList.toggle("visible", loading);
     }
 
     function selectQuality(btn) {
-      document.querySelectorAll(".quality-btn").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".quality-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       selectedQuality = btn.dataset.quality;
     }
 
     async function fetchInfo() {
       const url = document.getElementById("urlInput").value.trim();
-      if (!url) { showError("Please paste a URL first."); return; }
-
-      const platform = detectPlatform(url);
-      if (!platform) {
-        showError("Please paste a valid Instagram Reel or YouTube Shorts URL.");
+      if (!url) { showError("Please paste an Instagram URL first."); return; }
+      if (!detectInstagram(url)) {
+        showError("Only Instagram Reels and video links are supported. Please paste a valid Instagram URL.");
         return;
       }
 
       hideError();
       setFetchLoading(true);
-      showProgress(true);
+      document.getElementById("progressBar").classList.add("visible");
       currentUrl = url;
 
       try {
@@ -477,24 +447,18 @@
         });
 
         const data = await res.json();
-
         if (!res.ok) throw new Error(data.error || "Failed to fetch video info");
 
-        // Populate result card
-        document.getElementById("videoTitle").textContent = data.title || "Video";
-        document.getElementById("videoMeta").textContent =
-          [
-            data.uploader ? `by ${data.uploader}` : null,
-            data.duration ? `${Math.floor(data.duration / 60)}:${String(Math.floor(data.duration % 60)).padStart(2, "0")}` : null,
-            data.platform === "instagram" ? "Instagram" : "YouTube",
-          ]
-            .filter(Boolean)
-            .join(" · ");
+        document.getElementById("videoTitle").textContent = data.title || "Instagram Video";
+        document.getElementById("videoMeta").textContent = [
+          data.uploader ? `@${data.uploader}` : null,
+          data.duration ? `${Math.floor(data.duration / 60)}:${String(Math.floor(data.duration % 60)).padStart(2, "0")}` : null,
+          "Instagram"
+        ].filter(Boolean).join(" · ");
 
         const thumb = document.getElementById("thumbnail");
         if (data.thumbnail) {
           thumb.src = data.thumbnail;
-          thumb.style.display = "block";
           document.getElementById("videoPreview").style.display = "flex";
         } else {
           document.getElementById("videoPreview").style.display = "none";
@@ -504,34 +468,24 @@
         document.getElementById("resultCard").scrollIntoView({ behavior: "smooth", block: "nearest" });
 
       } catch (err) {
-        showError(err.message || "Could not connect to server. Make sure the backend is running.");
+        showError(err.message || "Could not connect to server. Please try again.");
       } finally {
         setFetchLoading(false);
-        showProgress(false);
+        document.getElementById("progressBar").classList.remove("visible");
       }
     }
 
     async function downloadVideo() {
       if (!currentUrl) return;
-
       setDownloadLoading(true);
-      document.getElementById("downloadBtnText").textContent = "Preparing download...";
-
       const downloadUrl = `${API_BASE}/api/download?url=${encodeURIComponent(currentUrl)}&quality=${selectedQuality}`;
-
-      // Trigger download via hidden anchor
       const a = document.createElement("a");
       a.href = downloadUrl;
-      a.download = "video.mp4";
+      a.download = "instagram_video.mp4";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-
-      // Re-enable after a delay (download is handled by browser)
-      setTimeout(() => {
-        setDownloadLoading(false);
-        document.getElementById("downloadBtnText").textContent = "⬇ Download Video";
-      }, 3000);
+      setTimeout(() => setDownloadLoading(false), 3000);
     }
   </script>
 </body>
